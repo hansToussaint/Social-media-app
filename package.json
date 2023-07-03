@@ -1,0 +1,15 @@
+{
+  "name": "social-media-app",
+  "version": "1.0.0",
+  "description": "Cool app With APIs request",
+  "main": "script.js",
+  "scripts": {
+    "start": "index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "hansToussaint"
+  },
+  "author": "Hans Toussaint",
+  "license": "ISC"
+}

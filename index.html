@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <title>Social Media App</title>
+
+    <script type="module" src="/script.js"></script>
+  </head>
+  <body>
+    <header>
+      <section>
+        <h1>Social Media With JavaScript</h1>
+        <nav class="nav__list">
+          <li class="nav__item"><a href="/">Posts</a></li>
+          <li class="nav__item"><a href="/users">Users</a></li>
+          <li class="nav__item">
+            <a href="/notifications">Notifications</a>
+
+            <span class="notifications">2</span>
+          </li>
+          <li>
+            <button>Refresh Notifications</button>
+          </li>
+        </nav>
+      </section>
+    </header>
+
+    <div class="posts">
+      <section class="posts__form">
+        <h2>Add a New Post</h2>
+        <form class="save">
+          <label for="post--title">Post Title:</label>
+          <input
+            type="text"
+            name="title"
+            id="post--title"
+            placeholder="What's on your mind?"
+          />
+
+          <label for="author">Author:</label>
+          <select name="author" id="post--author">
+            <!-- <option value="author--1">dffewdfew</option>
+            <option value="author--2"></option>
+            <option value="author--3"></option> -->
+          </select>
+
+          <label for="post--content">Content:</label>
+          <textarea
+            name="content"
+            id="post--content"
+            cols="20"
+            rows="3"
+          ></textarea>
+
+          <button class="save__post">Save Post</button>
+        </form>
+        <h2>Posts</h2>
+      </section>
+
+      <section class="posts__list">
+        <!-- <div class="posts--box"> -->
+        <!-- <article class="post--article">
+            <h3>ggggggggg</h3>
+
+            <div>
+              <span>by kkkkkk </span>
+              <span>
+                <i> about 1 hour ago</i>
+              </span>
+            </div>
+
+            <p class="post--text">
+              jhflbk ndfkj;fn nj; nfej nje;bnf bjo buepwfb buiefpb
+            </p>
+
+            <div>
+              <button class="post--icons">👍 0</button>
+              <button class="post--icons">🎉 0</button>
+              <button class="post--icons">💓 0</button>
+              <button class="post--icons">🚀 0</button>
+              <button class="post--icons">👀 0</button>
+            </div>
+            <button class="view--post">View Post</button>
+          </article> -->
+        <!-- </div> -->
+      </section>
+    </div>
+  </body>
+</html>
