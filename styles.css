@@ -9,9 +9,10 @@ html {
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
-/* a {
-  list-style: none;
-} */
+a {
+  text-decoration: none;
+  padding: 0.5rem 1.5rem 1.3rem 1rem;
+}
 
 section {
   max-width: 50rem;
@@ -53,7 +54,7 @@ li {
 .nav__item {
   cursor: pointer;
   font-weight: 700;
-  padding: 0.5rem 1.5rem 1.55rem 1.5rem;
+  padding: 0.5rem 0.1rem 1.55rem 0.5rem;
   background-color: #481499;
   border-radius: 4px;
   /* margin-bottom: 6rem; */
@@ -189,8 +190,10 @@ select:hover {
 }
 .lds-ring div {
   box-sizing: border-box;
-  display: block;
+  display: flex;
   position: absolute;
+  left: 20rem;
+  right: 20rem;
   width: 64px;
   height: 64px;
   margin: 8px;
@@ -217,7 +220,25 @@ select:hover {
   }
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 /* ///// */
+
+/* Page users*/
+.show--users {
+  margin-top: 2rem;
+  /* border: 2px solid black; */
+  width: 70%;
+  height: auto;
+}
+
+.show--users li {
+  list-style: circle;
+  padding: 0.3rem;
+}
+/*  */
 
 /* responsive Design */
 @media screen and (max-width: 800px) {

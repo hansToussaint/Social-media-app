@@ -11,5 +11,9 @@
     "url": "hansToussaint"
   },
   "author": "Hans Toussaint",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "core-js": "^3.31.0",
+    "regenerator-runtime": "^0.13.11"
+  }
 }

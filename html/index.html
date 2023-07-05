@@ -5,23 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
 
     <title>Social Media App</title>
 
-    <script type="module" src="/script.js"></script>
+    <script type="module" src="/script/posts.js"></script>
   </head>
   <body>
     <header>
       <section>
         <h1>Social Media With JavaScript</h1>
         <nav class="nav__list">
-          <li class="nav__item"><a href="/">Posts</a></li>
-          <li class="nav__item"><a href="/users">Users</a></li>
           <li class="nav__item">
-            <a href="/notifications">Notifications</a>
-
-            <span class="notifications">2</span>
+            <a href="/html/" id="posts--link">Posts</a>
+          </li>
+          <li class="nav__item">
+            <a href="/html/users.html" id="users--link">Users</a>
+          </li>
+          <li class="nav__item">
+            <a href="/html/notifications.html" id="notifications--link"
+              >Notifications <span class="notifications">2</span></a
+            >
           </li>
           <li>
             <button>Refresh Notifications</button>
