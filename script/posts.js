@@ -21,7 +21,7 @@ const renderUsers = async function () {
 
     option.classList.add("author");
 
-    postAuthor.add(option);
+    postAuthor.append(option);
   });
 };
 await renderUsers();
@@ -30,13 +30,20 @@ const renderPost = async function () {
   // spinner
   AJAX.renderSpinner(postsContainer);
 
-  const data = await AJAX.getPosts(API_URL);
+  // const data = await AJAX.getPosts(API_URL);
+  // const users = await AJAX.getUsers(API_URL);
+
+  const [data, users] = await Promise.all([
+    AJAX.getPosts(API_URL),
+    AJAX.getUsers(API_URL),
+  ]);
   // console.log(data);
 
   data
     .map((element) => {
-      // const user = getUserById(API_URL, element.userId);
-      // console.log();
+      const user = users.find((user) => element.userId === user.authorId);
+
+      console.log(user);
 
       const markup = `
 
@@ -45,7 +52,7 @@ const renderPost = async function () {
         <h3>${element.title}</h3>
 
         <div>
-          <span> by </span>
+          <span> by ${user.authorName}</span>
           <span>
             <i> about 1 hour ago</i>
           </span>
@@ -69,8 +76,7 @@ const renderPost = async function () {
     .join("");
 
   // 4) remove spinner
-  const spinner = document.querySelector(".lds-ring");
-  spinner.classList.add("hidden");
+  AJAX.removeSpinner();
 };
 await renderPost();
 

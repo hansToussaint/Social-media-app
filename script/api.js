@@ -1,16 +1,16 @@
 // Getting each user
-export const getUserById = async function (url, id) {
-  try {
-    const response3 = await fetch(`${url}/users/${id}`);
-    const data3 = await response3.json();
+// export const getUserById = async function (url, id) {
+//   try {
+//     const response3 = await fetch(`${url}/users/${id}`);
+//     const data3 = await response3.json();
 
-    if (!response3.ok) throw new Error("we Cannot get this user");
+//     if (!response3.ok) throw new Error("we Cannot get this user");
 
-    return data3;
-  } catch (error) {
-    console.error(error);
-  }
-};
+//     return data3;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 //
 export const getUsers = async function (url) {
@@ -93,4 +93,9 @@ export const renderSpinner = function (parentElement) {
 
   parentElement.innerHTML = "";
   parentElement.insertAdjacentHTML("afterbegin", markup);
+};
+
+export const removeSpinner = function () {
+  const spinner = document.querySelector(".lds-ring");
+  spinner.classList.add("hidden");
 };
