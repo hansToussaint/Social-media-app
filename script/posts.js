@@ -26,39 +26,21 @@ const renderUsers = async function () {
 };
 await renderUsers();
 
-const renderPost = async function () {
-  // spinner
-  AJAX.renderSpinner(postsContainer);
-
-  // const data = await AJAX.getPosts(API_URL);
-  // const users = await AJAX.getUsers(API_URL);
-
-  const [data, users] = await Promise.all([
-    AJAX.getPosts(API_URL),
-    AJAX.getUsers(API_URL),
-  ]);
-  // console.log(data);
-
-  data
-    .map((element) => {
-      const user = users.find((user) => element.userId === user.authorId);
-
-      console.log(user);
-
-      const markup = `
+const generalMArkup = function (title, body, user) {
+  const markup = `
 
     <div class="posts--box">
       <article class="post--article">
-        <h3>${element.title}</h3>
+        <h3>${title}</h3>
 
         <div>
-          <span> by ${user.authorName}</span>
+          <span> by ${user}</span>
           <span>
             <i> about 1 hour ago</i>
           </span>
         </div>
 
-        <p class="post--text">${element.body}</p>
+        <p class="post--text">${body}</p>
 
         <div>
           <button class="post--icons">👍 <span class="num">0</span></button>
@@ -71,7 +53,25 @@ const renderPost = async function () {
       </article>
     </div>
     `;
-      postsContainer.insertAdjacentHTML("afterbegin", markup);
+  postsContainer.insertAdjacentHTML("afterbegin", markup);
+};
+
+// Renser post from API
+const renderPost = async function () {
+  // spinner
+  AJAX.renderSpinner(postsContainer);
+
+  const [data, users] = await Promise.all([
+    AJAX.getPosts(API_URL),
+    AJAX.getUsers(API_URL),
+  ]);
+  // console.log(data);
+
+  data
+    .map((element) => {
+      const user = users.find((user) => element.userId === user.authorId);
+
+      generalMArkup(element.title, element.body, user.authorName);
     })
     .join("");
 
@@ -80,37 +80,37 @@ const renderPost = async function () {
 };
 await renderPost();
 
-//
+// Render new post/createpost
+const renderNewPost = async function (dataToUpload) {
+  const data = await AJAX.sendPost(API_URL, dataToUpload);
+  // console.log("data:", data);
+  // console.log(
+  //   "data to Upload to the API and to post as new post:",
+  //   dataToUpload
+  // );
+
+  generalMArkup(data.title, data.body, data.author);
+};
 
 // /////////////Event handlers/////////
-
-// others pages
-
-// nav.addEventListener("click", function (e) {
-//   const postsPage = e.target.closest(".posts--page");
-//   const usersPage = e.target.closest(".users--page");
-//   const notificationsPage = e.target.closest(".notifications--page");
-
-//   if (!postsPage && !usersPage && !notificationsPage) return;
-// });
 
 // general
 savePost.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const dataArray = [...new FormData(this)];
-  const data = Object.fromEntries(dataArray);
+  const dataForm = Object.fromEntries(dataArray);
 
   const dataToPost = {
-    body: data.content,
-    title: data.title,
-    // userId: 1,
-    // author:
+    body: dataForm.content,
+    title: dataForm.title,
+    author: postAuthor.options[postAuthor.selectedIndex].textContent,
   };
 
-  sendPost(API_URL, dataToPost);
+  if (postTitle.value !== "" && postContent.value !== "")
+    renderNewPost(dataToPost);
 
-  // postAuthor.value = "";
+  // postAuthor.textContent = "";
   postTitle.value = "";
   postContent.value = "";
 });

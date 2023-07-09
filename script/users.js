@@ -21,6 +21,7 @@ const renderUsers = function () {
      `;
     showUsers.insertAdjacentHTML("beforeend", markupUser);
   });
+
   // const show = document.querySelectorAll(".user");
   // console.log(show);
 };

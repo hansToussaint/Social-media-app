@@ -1,18 +1,18 @@
-// Getting each user
-// export const getUserById = async function (url, id) {
-//   try {
-//     const response3 = await fetch(`${url}/users/${id}`);
-//     const data3 = await response3.json();
+// Get requests
+export const getPosts = async function (url) {
+  try {
+    const response1 = await fetch(`${url}/posts`);
 
-//     if (!response3.ok) throw new Error("we Cannot get this user");
+    const data1 = await response1.json();
 
-//     return data3;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+    if (!response1.ok) throw new Error("We cannot find posts!");
 
-//
+    return data1;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getUsers = async function (url) {
   try {
     //1) Get users
@@ -30,42 +30,16 @@ export const getUsers = async function (url) {
     });
 
     return infoUsers;
-    // // 2) Render users
-    // renderUsers(infoUsers);
   } catch (error) {
     console.error(error);
   }
 };
 
-export const getPosts = async function (url) {
-  try {
-    // 1) Render spinner
-    // renderSpinner(postsContainer);
-
-    // 2) Get posts
-    const response1 = await fetch(`${url}/posts`);
-
-    const data1 = await response1.json();
-
-    if (!response1.ok) throw new Error("We cannot find posts!");
-    // console.log(data1);
-
-    return data1;
-    // 3)Render posts
-    // renderPost(data1);
-
-    // // 4) remove spinner
-    // const spinner = document.querySelector(".lds-ring");
-    // spinner.classList.add("hidden");
-  } catch (error) {
-    console.error(error);
-  }
-};
-
+// Post request
 export const sendPost = async function (url, upload) {
   try {
     //sending data
-    const response1 = await fetch(`${url}/posts`, {
+    const response = await fetch(`${url}/posts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -73,21 +47,17 @@ export const sendPost = async function (url, upload) {
       body: JSON.stringify(upload),
     });
 
-    const data1 = await response1.json();
-    const dataArray = [];
-    dataArray.push(data1);
+    const data = await response.json();
 
-    // console.log(dataArray);
+    if (!response.ok) throw new Error("We cannot find posts!");
 
-    if (!response1.ok) throw new Error("We cannot find posts!");
-
-    //Render new post
-    // renderPost(dataArray);
+    return data;
   } catch (error) {
     console.log(error);
   }
 };
 
+// Spinner to display while waiting for data
 export const renderSpinner = function (parentElement) {
   const markup = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
 
