@@ -7,6 +7,7 @@ const postAuthor = document.getElementById("post--author");
 const postContent = document.getElementById("post--content");
 const savePost = document.querySelector(".save");
 
+let clicked = false;
 // const nav = document.querySelector(".nav__list");
 
 // functions to render
@@ -44,10 +45,10 @@ const generalMArkup = function (title, body, user) {
 
         <div>
           <button class="post--icons">👍 <span class="num">0</span></button>
-          <button class="post--icons">🎉 0</button>
-          <button class="post--icons">💓 0</button>
-          <button class="post--icons">🚀 0</button>
-          <button class="post--icons">👀 0</button>
+          <button class="post--icons">🎉 <span class="num">0</span></button>
+          <button class="post--icons">💓 <span class="num">0</span></button>
+          <button class="post--icons">🚀 <span class="num">0</span></button>
+          <button class="post--icons">👀 <span class="num">0</span></button>
         </div>
         <button class="view--post">View Post</button>
       </article>
@@ -92,6 +93,26 @@ const renderNewPost = async function (dataToUpload) {
   generalMArkup(data.title, data.body, data.author);
 };
 
+// functions to display the icons
+const click = function (btn, numElement) {
+  let number = 0;
+
+  if (!clicked) {
+    btn.classList.add("clicked");
+    number++;
+    numElement.textContent = number;
+    clicked = !clicked;
+  }
+
+  //
+  else {
+    btn.classList.remove("cliked");
+    number;
+    numElement.textContent = number;
+    clicked = !clicked;
+  }
+};
+
 // /////////////Event handlers/////////
 
 // general
@@ -118,7 +139,9 @@ savePost.addEventListener("submit", function (e) {
 postsContainer.addEventListener("click", function (e) {
   const btn = e.target.closest(".post--icons");
 
+  const numElement = btn.querySelector(".num");
+
   if (!btn) return;
 
-  console.log(e);
+  click(btn, numElement);
 });
