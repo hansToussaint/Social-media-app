@@ -94,13 +94,14 @@ const renderNewPost = async function (dataToUpload) {
 };
 
 // functions to display the icons
-const click = function (btn, numElement) {
+const click = function (btn, str) {
   let number = 0;
 
   if (!clicked) {
     btn.classList.add("clicked");
     number++;
-    numElement.textContent = number;
+    // numElement.textContent = number;
+    str.textContent = `${str.textContent.split(" ")[0]} ${number}`;
     clicked = !clicked;
   }
 
@@ -108,7 +109,8 @@ const click = function (btn, numElement) {
   else {
     btn.classList.remove("cliked");
     number;
-    numElement.textContent = number;
+    // numElement.textContent = number;
+    str.textContent = `${str.textContent.split(" ")[0]} ${number}`;
     clicked = !clicked;
   }
 };
@@ -137,11 +139,17 @@ savePost.addEventListener("submit", function (e) {
 });
 
 postsContainer.addEventListener("click", function (e) {
-  const btn = e.target.closest(".post--icons");
+  const btnIcons = e.target.closest(".post--icons");
+  const btnViewPost = e.target.closest(".view--post");
 
-  const numElement = btn.querySelector(".num");
+  // const numElement = btnIcons.querySelector(".num");
+  const numElement = btnIcons;
 
-  if (!btn) return;
+  if (!btnIcons && !btnViewPost) return;
 
-  click(btn, numElement);
+  if (btnIcons) click(btnIcons, numElement);
+
+  // if (btnViewPost) {
+  //   postsContainer.innerHTML = "";
+  // }
 });

@@ -3,7 +3,6 @@ import * as AJAX from "./api.js";
 import { API_URL } from "./helpers.js";
 
 const showUsers = document.querySelector(".show--users");
-// let clicked = false;
 
 const [data, users] = await Promise.all([
   AJAX.getPosts(API_URL),
@@ -13,29 +12,31 @@ const [data, users] = await Promise.all([
 
 const renderUsers = function () {
   users.map((user) => {
-    const post = data.filter((post) => user.authorId === post.userId);
-    console.log(post);
-
     const markupUser = `
-        <li class="user">${user.authorName}</li>
+        <li class="user" id=${user.authorId}>${user.authorName}</li>
      `;
+
     showUsers.insertAdjacentHTML("beforeend", markupUser);
   });
-
-  // const show = document.querySelectorAll(".user");
-  // console.log(show);
 };
 renderUsers();
 
+const showPostsSingleUser = function (userId) {
+  const postsSingleUser = data.filter((post) => post.userId === +userId);
+
+  postsSingleUser.map((post) => {
+    const markupPosts = `
+    <li class="single-post">${post.title}</li>
+    `;
+    showUsers.insertAdjacentHTML("beforeend", markupPosts);
+  });
+};
+
 // Event
 showUsers.addEventListener("click", function (e) {
-  const show = e.target.closest(".user");
-  console.log(show);
+  const user = e.target.closest(".user");
 
+  console.log(user.id);
   showUsers.innerHTML = "";
-  // clicked = true;
-
-  // // const markupPost = `
-  // // <li>${}</li>
-  // // `
+  showPostsSingleUser(user.id);
 });
