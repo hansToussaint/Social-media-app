@@ -1,5 +1,7 @@
 import * as AJAX from "./api.js";
-import { API_URL } from "./helpers.js";
+import * as helpers from "./helpers.js";
+
+const formContainer = document.querySelector(".posts__form");
 
 const postsContainer = document.querySelector(".posts__list");
 const postTitle = document.getElementById("post--title");
@@ -8,12 +10,16 @@ const postContent = document.getElementById("post--content");
 const savePost = document.querySelector(".save");
 
 let clicked = false;
-// const nav = document.querySelector(".nav__list");
+
+const [data, users] = await Promise.all([
+  AJAX.getPosts(helpers.API_URL),
+  AJAX.getUsers(helpers.API_URL),
+]);
 
 // functions to render
 
 const renderUsers = async function () {
-  const infoUsers = await AJAX.getUsers(API_URL);
+  const infoUsers = await AJAX.getUsers(helpers.API_URL);
 
   infoUsers.map((element) => {
     let option = document.createElement("option");
@@ -27,70 +33,70 @@ const renderUsers = async function () {
 };
 await renderUsers();
 
-const generalMArkup = function (title, body, user) {
-  const markup = `
-
-    <div class="posts--box">
-      <article class="post--article">
-        <h3>${title}</h3>
-
-        <div>
-          <span> by ${user}</span>
-          <span>
-            <i> about 1 hour ago</i>
-          </span>
-        </div>
-
-        <p class="post--text">${body}</p>
-
-        <div>
-          <button class="post--icons">👍 <span class="num">0</span></button>
-          <button class="post--icons">🎉 <span class="num">0</span></button>
-          <button class="post--icons">💓 <span class="num">0</span></button>
-          <button class="post--icons">🚀 <span class="num">0</span></button>
-          <button class="post--icons">👀 <span class="num">0</span></button>
-        </div>
-        <button class="view--post">View Post</button>
-      </article>
-    </div>
-    `;
-  postsContainer.insertAdjacentHTML("afterbegin", markup);
-};
-
 // Renser post from API
 const renderPost = async function () {
   // spinner
-  AJAX.renderSpinner(postsContainer);
+  helpers.renderSpinner(postsContainer);
 
-  const [data, users] = await Promise.all([
-    AJAX.getPosts(API_URL),
-    AJAX.getUsers(API_URL),
-  ]);
   // console.log(data);
 
   data
     .map((element) => {
       const user = users.find((user) => element.userId === user.authorId);
 
-      generalMArkup(element.title, element.body, user.authorName);
+      const markupObject = {
+        parentElement: postsContainer,
+        title: element.title,
+        body: element.body,
+        user: user.authorName,
+        id: element.id,
+      };
+
+      helpers.generalMarkup(markupObject);
     })
     .join("");
 
-  // 4) remove spinner
-  AJAX.removeSpinner();
+  // remove spinner
+  helpers.removeSpinner();
 };
 await renderPost();
 
 // Render new post/createpost
 const renderNewPost = async function (dataToUpload) {
-  const data = await AJAX.sendPost(API_URL, dataToUpload);
+  const data = await AJAX.sendPost(helpers.API_URL, dataToUpload);
   // console.log("data:", data);
   // console.log(
   //   "data to Upload to the API and to post as new post:",
   //   dataToUpload
   // );
 
-  generalMArkup(data.title, data.body, data.author);
+  const markupObject = {
+    parentElement: postsContainer,
+    title: data.title,
+    body: data.body,
+    user: data.author,
+    id: data.id,
+  };
+
+  helpers.generalMarkup(markupObject);
+};
+
+//
+const singlePost = async function (id) {
+  //
+  const post = data.find((el) => el.id === id);
+
+  const user = users.find((user) => post.userId === user.authorId);
+
+  const markupObject = {
+    parentElement: formContainer,
+    title: post.title,
+    body: post.body,
+    user: user.authorName,
+    id: post.id,
+  };
+
+  helpers.generalMarkup(markupObject);
 };
 
 // functions to display the icons
@@ -149,7 +155,16 @@ postsContainer.addEventListener("click", function (e) {
 
   if (btnIcons) click(btnIcons, numElement);
 
-  // if (btnViewPost) {
-  //   postsContainer.innerHTML = "";
-  // }
+  if (btnViewPost) {
+    formContainer.innerHTML = "";
+    postsContainer.innerHTML = "";
+
+    // spinner
+    helpers.renderSpinner(formContainer);
+
+    singlePost(+btnViewPost.id);
+
+    // remove spinner
+    helpers.removeSpinner();
+  }
 });

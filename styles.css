@@ -21,6 +21,10 @@ section {
   height: 100%;
 }
 
+.posts__form {
+  margin-top: 20px;
+}
+
 header {
   color: white;
   background-color: #764abc;

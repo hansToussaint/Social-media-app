@@ -1,12 +1,13 @@
 // import { async } from "regenerator-runtime";
 import * as AJAX from "./api.js";
-import { API_URL } from "./helpers.js";
+import * as helpers from "./helpers.js";
 
 const showUsers = document.querySelector(".show--users");
+const infoPage = document.querySelector("h2");
 
 const [data, users] = await Promise.all([
-  AJAX.getPosts(API_URL),
-  AJAX.getUsers(API_URL),
+  AJAX.getPosts(helpers.API_URL),
+  AJAX.getUsers(helpers.API_URL),
 ]);
 // console.log(data);
 
@@ -22,21 +23,57 @@ const renderUsers = function () {
 renderUsers();
 
 const showPostsSingleUser = function (userId) {
+  showUsers.innerHTML = "";
+
   const postsSingleUser = data.filter((post) => post.userId === +userId);
 
   postsSingleUser.map((post) => {
     const markupPosts = `
-    <li class="single-post">${post.title}</li>
+    <li id=${post.id} class="single-post">${post.title}</li>
     `;
+
     showUsers.insertAdjacentHTML("beforeend", markupPosts);
   });
 };
 
-// Event
-showUsers.addEventListener("click", function (e) {
-  const user = e.target.closest(".user");
+//
+const singlePost = async function (id) {
+  infoPage.innerHTML = "";
 
-  console.log(user.id);
-  showUsers.innerHTML = "";
-  showPostsSingleUser(user.id);
+  // render spinner
+  helpers.renderSpinner(showUsers);
+
+  //
+  const post = data.find((el) => el.id === id);
+
+  const user = users.find((user) => post.userId === user.authorId);
+
+  const markupObject = {
+    parentElement: showUsers,
+    title: post.title,
+    body: post.body,
+    user: user.authorName,
+    id: post.id,
+  };
+
+  // console.log(markupObject);
+  helpers.generalMarkup(markupObject);
+
+  // remove spinner
+  helpers.removeSpinner();
+};
+
+// Event handlers
+const allUsers = document.querySelectorAll(".user");
+
+allUsers.forEach((user) =>
+  user.addEventListener("click", () => showPostsSingleUser(user.id))
+);
+
+showUsers.addEventListener("click", function (e) {
+  const post = e.target.closest(".single-post");
+
+  if (!post) return;
+
+  singlePost(+post.id);
 });

@@ -56,16 +56,3 @@ export const sendPost = async function (url, upload) {
     console.log(error);
   }
 };
-
-// Spinner to display while waiting for data
-export const renderSpinner = function (parentElement) {
-  const markup = `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`;
-
-  parentElement.innerHTML = "";
-  parentElement.insertAdjacentHTML("afterbegin", markup);
-};
-
-export const removeSpinner = function () {
-  const spinner = document.querySelector(".lds-ring");
-  spinner.classList.add("hidden");
-};
